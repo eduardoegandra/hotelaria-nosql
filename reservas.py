@@ -58,6 +58,9 @@ def excluir_reserva(id):
 def adicionar_servico(id):
     reserva = db["reservas"].find_one({"_id": ObjectId(id)})
 
+    if reserva["status"] == "finalizada":
+        return redirect(url_for("reservas.detalhe_reserva", id=id))
+
     ultimo_id = 0
     if reserva["servicos"]:
         ultimo_id = max(s["id_servico"] for s in reserva["servicos"])
@@ -89,9 +92,12 @@ def adicionar_servico(id):
 
 @reservas_bp.route("/reservas/<id>/pagamento/novo", methods=["POST"])
 def adicionar_pagamento(id):
-    ultimo_id = 0
     reserva = db["reservas"].find_one({"_id": ObjectId(id)})
 
+    if reserva["status"] != "finalizada":
+        return redirect(url_for("reservas.detalhe_reserva", id=id))
+
+    ultimo_id = 0
     if reserva["pagamentos"]:
         ultimo_id = max(p["id_pagamento"] for p in reserva["pagamentos"])
 
@@ -108,4 +114,13 @@ def adicionar_pagamento(id):
         {"$push": {"pagamentos": novo_pagamento}}
     )
 
+    return redirect(url_for("reservas.detalhe_reserva", id=id))
+
+
+@reservas_bp.route("/reservas/<id>/finalizar", methods=["POST"])
+def finalizar_reserva(id):
+    db["reservas"].update_one(
+        {"_id": ObjectId(id)},
+        {"$set": {"status": "finalizada"}}
+    )
     return redirect(url_for("reservas.detalhe_reserva", id=id))
