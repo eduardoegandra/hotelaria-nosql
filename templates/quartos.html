@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block conteudo %}
+    <h1>Quartos</h1>
+    <a href="{{ url_for('quartos.novo_quarto') }}"><button>Novo Quarto</button></a>
+    <table>
+        <tr>
+            <th>Número</th><th>Tipo</th><th>Capacidade</th><th>Valor Diária</th><th>Status</th><th>Ações</th>
+        </tr>
+        {% for q in quartos %}
+        <tr>
+            <td>{{ q.numero }}</td>
+            <td>{{ q.tipo }}</td>
+            <td>{{ q.capacidade }}</td>
+            <td>R$ {{ "%.2f"|format(q.valor_diaria) }}</td>
+            <td>{{ q.status_disponibilidade }}</td>
+            <td>
+                <a href="{{ url_for('quartos.editar_quarto', id=q._id) }}">Editar</a> |
+                <a href="{{ url_for('quartos.excluir_quarto', id=q._id) }}">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

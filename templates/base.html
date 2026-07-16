@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema Hoteleiro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Início</a>
+        <a href="/hospedes">Hóspedes</a>
+        <a href="/quartos">Quartos</a>
+        <a href="/funcionarios">Funcionários</a>
+        <a href="/reservas">Reservas</a>
+    </nav>
+    <div class="conteudo">
+        {% block conteudo %}{% endblock %}
+    </div>
+</body>
+</html>

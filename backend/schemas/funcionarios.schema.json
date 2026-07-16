@@ -1,0 +1,26 @@
+{
+  "collMod": "funcionarios",
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "title": "Funcionario",
+      "required": ["cpf", "nome", "cargo"],
+      "properties": {
+        "cpf": {
+          "bsonType": "string",
+          "description": "CPF do funcionario, obrigatorio e unico"
+        },
+        "nome": {
+          "bsonType": "string",
+          "description": "Nome completo do funcionario"
+        },
+        "cargo": {
+          "bsonType": "string",
+          "description": "Cargo do funcionario (ex: recepcionista, camareira, gerente)"
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

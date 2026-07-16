@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block conteudo %}
+    <h1>{{ "Editar" if quarto else "Novo" }} Quarto</h1>
+    <form method="POST">
+        <label>Número</label>
+        <input type="number" name="numero" value="{{ quarto.numero if quarto else '' }}" required>
+        <label>Tipo</label>
+        <input type="text" name="tipo" value="{{ quarto.tipo if quarto else '' }}" required>
+        <label>Capacidade</label>
+        <input type="number" name="capacidade" value="{{ quarto.capacidade if quarto else '' }}" required>
+        <label>Valor Diária</label>
+        <input type="number" step="0.01" name="valor_diaria" value="{{ quarto.valor_diaria if quarto else '' }}" required>
+        <label>Status</label>
+        <select name="status_disponibilidade">
+            <option value="disponivel" {{ "selected" if quarto and quarto.status_disponibilidade == "disponivel" }}>Disponível</option>
+            <option value="ocupado" {{ "selected" if quarto and quarto.status_disponibilidade == "ocupado" }}>Ocupado</option>
+            <option value="manutencao" {{ "selected" if quarto and quarto.status_disponibilidade == "manutencao" }}>Manutenção</option>
+        </select>
+        <button type="submit">Salvar</button>
+    </form>
+{% endblock %}

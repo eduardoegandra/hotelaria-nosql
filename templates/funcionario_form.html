@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block conteudo %}
+    <h1>{{ "Editar" if funcionario else "Novo" }} Funcionário</h1>
+    <form method="POST">
+        <label>CPF</label>
+        <input type="text" name="cpf" value="{{ funcionario.cpf if funcionario else '' }}" required>
+        <label>Nome</label>
+        <input type="text" name="nome" value="{{ funcionario.nome if funcionario else '' }}" required>
+        <label>Cargo</label>
+        <input type="text" name="cargo" value="{{ funcionario.cargo if funcionario else '' }}" required>
+        <button type="submit">Salvar</button>
+    </form>
+{% endblock %}

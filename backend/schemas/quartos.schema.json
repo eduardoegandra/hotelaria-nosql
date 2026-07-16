@@ -1,0 +1,36 @@
+{
+  "collMod": "quartos",
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "title": "Quarto",
+      "required": ["numero", "tipo", "capacidade", "valor_diaria", "status_disponibilidade"],
+      "properties": {
+        "numero": {
+          "bsonType": "string",
+          "description": "Numero do quarto, obrigatorio e unico"
+        },
+        "tipo": {
+          "bsonType": "string",
+          "description": "Tipo do quarto (ex: standard, luxo, suite)"
+        },
+        "capacidade": {
+          "bsonType": "int",
+          "minimum": 1,
+          "description": "Capacidade de hospedes no quarto"
+        },
+        "valor_diaria": {
+          "bsonType": "double",
+          "minimum": 0,
+          "description": "Valor da diaria do quarto"
+        },
+        "status_disponibilidade": {
+          "enum": ["disponivel", "ocupado", "manutencao"],
+          "description": "Status atual de disponibilidade do quarto"
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

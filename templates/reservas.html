@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block conteudo %}
+    <h1>Reservas</h1>
+    <a href="{{ url_for('reservas.nova_reserva') }}"><button>Nova Reserva</button></a>
+    <table>
+        <tr>
+            <th>Hóspede (CPF)</th><th>Quarto</th><th>Check-in</th><th>Check-out</th><th>Status</th><th>Valor Total</th><th>Ações</th>
+        </tr>
+        {% for r in reservas %}
+        <tr>
+            <td>{{ r.hospede_cpf }}</td>
+            <td>{{ r.quarto_numero }}</td>
+            <td>{{ r.data_checkin.strftime("%d/%m/%Y") }}</td>
+            <td>{{ r.data_checkout.strftime("%d/%m/%Y") }}</td>
+            <td>{{ r.status }}</td>
+            <td>R$ {{ "%.2f"|format(r.valor_total) }}</td>
+            <td>
+                <a href="{{ url_for('reservas.detalhe_reserva', id=r._id) }}">Detalhes</a> |
+                <a href="{{ url_for('reservas.excluir_reserva', id=r._id) }}">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

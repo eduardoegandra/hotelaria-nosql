@@ -1,0 +1,105 @@
+{
+  "collMod": "reservas",
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "title": "Reserva",
+      "required": [
+        "hospede_id",
+        "quarto_id",
+        "funcionario_id",
+        "data_reserva",
+        "data_checkin",
+        "data_checkout",
+        "status",
+        "valor_total"
+      ],
+      "properties": {
+        "hospede_id": {
+          "bsonType": "objectId",
+          "description": "Referencia ao hospede da reserva"
+        },
+        "quarto_id": {
+          "bsonType": "objectId",
+          "description": "Referencia ao quarto utilizado na reserva"
+        },
+        "funcionario_id": {
+          "bsonType": "objectId",
+          "description": "Referencia ao funcionario que registrou a reserva"
+        },
+        "data_reserva": {
+          "bsonType": "date",
+          "description": "Data em que a reserva foi feita"
+        },
+        "data_checkin": {
+          "bsonType": "date",
+          "description": "Data prevista de check-in"
+        },
+        "data_checkout": {
+          "bsonType": "date",
+          "description": "Data prevista de check-out"
+        },
+        "status": {
+          "enum": ["pendente", "confirmada", "em_andamento", "finalizada", "cancelada"],
+          "description": "Status atual da reserva"
+        },
+        "valor_total": {
+          "bsonType": "double",
+          "minimum": 0,
+          "description": "Valor total da reserva"
+        },
+        "servicos": {
+          "bsonType": "array",
+          "description": "Servicos adicionais executados durante a reserva",
+          "items": {
+            "bsonType": "object",
+            "required": ["descricao", "valor_unitario", "quantidade", "funcionario_id"],
+            "properties": {
+              "descricao": {
+                "bsonType": "string",
+                "description": "Descricao do servico (ex: lavanderia, room service)"
+              },
+              "valor_unitario": {
+                "bsonType": "double",
+                "minimum": 0
+              },
+              "quantidade": {
+                "bsonType": "int",
+                "minimum": 1
+              },
+              "funcionario_id": {
+                "bsonType": "objectId",
+                "description": "Funcionario responsavel pela execucao do servico"
+              }
+            }
+          }
+        },
+        "pagamentos": {
+          "bsonType": "array",
+          "description": "Pagamentos associados a reserva",
+          "items": {
+            "bsonType": "object",
+            "required": ["data_pagamento", "valor", "forma_pagamento", "status"],
+            "properties": {
+              "data_pagamento": {
+                "bsonType": "date"
+              },
+              "valor": {
+                "bsonType": "double",
+                "minimum": 0
+              },
+              "forma_pagamento": {
+                "enum": ["pix", "cartao_credito", "cartao_debito", "dinheiro"]
+              },
+              "status": {
+                "enum": ["pendente", "aprovado", "recusado", "estornado"]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}

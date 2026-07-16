@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block conteudo %}
+    <h1>Funcionários</h1>
+    <a href="{{ url_for('funcionarios.novo_funcionario') }}"><button>Novo Funcionário</button></a>
+    <table>
+        <tr>
+            <th>ID</th><th>CPF</th><th>Nome</th><th>Cargo</th><th>Ações</th>
+        </tr>
+        {% for f in funcionarios %}
+        <tr>
+            <td>{{ f.id_func }}</td>
+            <td>{{ f.cpf }}</td>
+            <td>{{ f.nome }}</td>
+            <td>{{ f.cargo }}</td>
+            <td>
+                <a href="{{ url_for('funcionarios.editar_funcionario', id=f._id) }}">Editar</a> |
+                <a href="{{ url_for('funcionarios.excluir_funcionario', id=f._id) }}">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

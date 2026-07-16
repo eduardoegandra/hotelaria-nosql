@@ -1,0 +1,30 @@
+{
+  "collMod": "hospedes",
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "title": "Hospede",
+      "required": ["cpf", "nome", "telefone", "email"],
+      "properties": {
+        "cpf": {
+          "bsonType": "string",
+          "description": "CPF do hospede, obrigatorio e unico"
+        },
+        "nome": {
+          "bsonType": "string",
+          "description": "Nome completo do hospede"
+        },
+        "telefone": {
+          "bsonType": "string",
+          "description": "Telefone de contato"
+        },
+        "email": {
+          "bsonType": "string",
+          "description": "E-mail do hospede"
+        }
+      }
+    }
+  },
+  "validationLevel": "strict",
+  "validationAction": "error"
+}
