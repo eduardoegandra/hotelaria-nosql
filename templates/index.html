@@ -1,5 +1,69 @@
 {% extends "base.html" %}
 {% block conteudo %}
-    <h1>Sistema de Gerenciamento Hoteleiro</h1>
-    <p>Selecione uma opção no menu para gerenciar hóspedes, quartos, funcionários ou reservas.</p>
+
+<div class="card-home">
+    <span class="badgezinha">✿ painel inicial ✿</span>
+    <h1>✨ Sistema de Gerenciamento Hoteleiro</h1>
+    <p>
+        Bem-vindo ao painel principal do sistema. Aqui você pode organizar as
+        principais informações do hotel de forma delicada, prática e eficiente.
+    </p>
+</div>
+
+<div class="atalhos-grid">
+    <a href="/hospedes" class="atalho-card">
+        <div class="icone-atalho">👩‍💼</div>
+        <h3>Hóspedes</h3>
+        <p>Cadastre, consulte, edite e acompanhe os hóspedes do hotel.</p>
+    </a>
+
+    <a href="/quartos" class="atalho-card">
+        <div class="icone-atalho">🛏️</div>
+        <h3>Quartos</h3>
+        <p>Gerencie número, tipo, capacidade, diária e disponibilidade.</p>
+    </a>
+
+    <a href="/funcionarios" class="atalho-card">
+        <div class="icone-atalho">💼</div>
+        <h3>Funcionários</h3>
+        <p>Organize os dados dos funcionários responsáveis pelas operações.</p>
+    </a>
+
+    <a href="/reservas" class="atalho-card">
+        <div class="icone-atalho">📖</div>
+        <h3>Reservas</h3>
+        <p>Controle reservas, serviços adicionais e pagamentos vinculados.</p>
+    </a>
+</div>
+
+<div class="info-grid">
+    <div class="info-card">
+        <h3>🌸 O que o sistema faz?</h3>
+        <p>
+            O sistema integra o gerenciamento de quartos, hóspedes, reservas,
+            funcionários, serviços adicionais e pagamentos em um único ambiente.
+        </p>
+    </div>
+
+    <div class="info-card">
+        <h3>💗 Organização central</h3>
+        <p>
+            A reserva funciona como o núcleo principal do sistema, reunindo as
+            informações mais importantes da hospedagem.
+        </p>
+    </div>
+
+    <div class="info-card">
+        <h3>✨ Navegação rápida</h3>
+        <p>
+            Use os atalhos acima ou o menu superior para acessar rapidamente
+            qualquer funcionalidade do sistema.
+        </p>
+    </div>
+</div>
+
+<div class="info-box">
+    ♡ Escolha uma área para começar e gerencie o hotel com mais charme e organização.
+</div>
+
 {% endblock %}

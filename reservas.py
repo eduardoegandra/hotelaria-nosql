@@ -6,10 +6,12 @@ from datetime import datetime
 reservas_bp = Blueprint("reservas", __name__)
 db = get_database()
 
+
 @reservas_bp.route("/reservas")
 def listar_reservas():
     reservas = list(db["reservas"].find())
     return render_template("reservas.html", reservas=reservas)
+
 
 @reservas_bp.route("/reservas/novo", methods=["GET", "POST"])
 def nova_reserva():
@@ -31,7 +33,13 @@ def nova_reserva():
     hospedes = list(db["hospedes"].find())
     quartos = list(db["quartos"].find())
     funcionarios = list(db["funcionarios"].find())
-    return render_template("reserva_form.html", hospedes=hospedes, quartos=quartos, funcionarios=funcionarios)
+    return render_template(
+        "reserva_form.html",
+        hospedes=hospedes,
+        quartos=quartos,
+        funcionarios=funcionarios
+    )
+
 
 @reservas_bp.route("/reservas/<id>")
 def detalhe_reserva(id):
@@ -39,32 +47,51 @@ def detalhe_reserva(id):
     funcionarios = list(db["funcionarios"].find())
     return render_template("reserva_detalhe.html", reserva=reserva, funcionarios=funcionarios)
 
+
 @reservas_bp.route("/reservas/excluir/<id>")
 def excluir_reserva(id):
     db["reservas"].delete_one({"_id": ObjectId(id)})
     return redirect(url_for("reservas.listar_reservas"))
 
+
 @reservas_bp.route("/reservas/<id>/servico/novo", methods=["POST"])
 def adicionar_servico(id):
-    ultimo_id = 0
     reserva = db["reservas"].find_one({"_id": ObjectId(id)})
+
+    ultimo_id = 0
     if reserva["servicos"]:
         ultimo_id = max(s["id_servico"] for s in reserva["servicos"])
+
+    valor_unitario = float(request.form["valor_unitario"])
+    quantidade = int(request.form["quantidade"])
+    total_servico = valor_unitario * quantidade
 
     novo_servico = {
         "id_servico": ultimo_id + 1,
         "descricao": request.form["descricao"],
-        "valor_unitario": float(request.form["valor_unitario"]),
-        "quantidade": int(request.form["quantidade"]),
+        "valor_unitario": valor_unitario,
+        "quantidade": quantidade,
         "funcionario_id": int(request.form["funcionario_id"])
     }
-    db["reservas"].update_one({"_id": ObjectId(id)}, {"$push": {"servicos": novo_servico}})
+
+    novo_valor_total = float(reserva.get("valor_total", 0)) + total_servico
+
+    db["reservas"].update_one(
+        {"_id": ObjectId(id)},
+        {
+            "$push": {"servicos": novo_servico},
+            "$set": {"valor_total": novo_valor_total}
+        }
+    )
+
     return redirect(url_for("reservas.detalhe_reserva", id=id))
+
 
 @reservas_bp.route("/reservas/<id>/pagamento/novo", methods=["POST"])
 def adicionar_pagamento(id):
     ultimo_id = 0
     reserva = db["reservas"].find_one({"_id": ObjectId(id)})
+
     if reserva["pagamentos"]:
         ultimo_id = max(p["id_pagamento"] for p in reserva["pagamentos"])
 
@@ -75,5 +102,10 @@ def adicionar_pagamento(id):
         "forma_pagamento": request.form["forma_pagamento"],
         "status": request.form["status"]
     }
-    db["reservas"].update_one({"_id": ObjectId(id)}, {"$push": {"pagamentos": novo_pagamento}})
+
+    db["reservas"].update_one(
+        {"_id": ObjectId(id)},
+        {"$push": {"pagamentos": novo_pagamento}}
+    )
+
     return redirect(url_for("reservas.detalhe_reserva", id=id))
