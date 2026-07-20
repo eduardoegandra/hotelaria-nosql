@@ -3,13 +3,23 @@
 
     <h1>Reservas</h1>
 
-    <a href="{{ url_for('reservas.nova_reserva') }}">
-        <button>Nova Reserva</button>
-    </a>
+    <form method="GET" action="{{ url_for('reservas.listar_reservas') }}" class="form-busca">
+        <input
+            type="text"
+            name="busca"
+            placeholder="Pesquisar por ID, nome do hóspede ou número do quarto"
+            value="{{ busca or '' }}"
+        >
+        <button type="submit">Pesquisar</button>
+    </form>
+
+    <a href="{{ url_for('reservas.nova_reserva') }}" class="botao-link">Nova Reserva</a>
 
     <table>
         <tr>
-            <th>Hóspede (CPF)</th>
+            <th>ID</th>
+            <th>Hóspede</th>
+            <th>CPF</th>
             <th>Quarto</th>
             <th>Check-in</th>
             <th>Check-out</th>
@@ -20,6 +30,8 @@
 
         {% for r in reservas %}
         <tr>
+            <td>{{ r._id }}</td>
+            <td>{{ r.hospede_nome }}</td>
             <td>{{ r.hospede_cpf }}</td>
             <td>{{ r.quarto_numero }}</td>
             <td>{{ r.data_checkin.strftime("%d/%m/%Y") }}</td>
@@ -33,5 +45,11 @@
         </tr>
         {% endfor %}
     </table>
+
+    {% if not reservas %}
+    <div class="lista-vazia">
+        Nenhuma reserva encontrada para a pesquisa informada.
+    </div>
+    {% endif %}
 
 {% endblock %}

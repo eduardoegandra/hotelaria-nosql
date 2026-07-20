@@ -45,15 +45,26 @@
         {% endfor %}
     </table>
 
+    {% if reserva.status != "finalizada" %}
     <form method="POST" action="{{ url_for('reservas.adicionar_servico', id=reserva._id) }}">
+        <label>Serviço Pré-Cadastrado</label>
+        <select id="servico_select">
+            <option value="">Selecione um serviço</option>
+            {% for servico in servicos_predefinidos %}
+            <option value="{{ servico.nome }}" data-valor="{{ servico.valor }}">
+                {{ servico.nome }} - R$ {{ "%.2f"|format(servico.valor) }}
+            </option>
+            {% endfor %}
+        </select>
+
         <label>Descrição</label>
-        <input type="text" name="descricao" required>
+        <input type="text" name="descricao" id="descricao" required>
 
         <label>Valor Unitário</label>
-        <input type="number" step="0.01" name="valor_unitario" required>
+        <input type="number" step="0.01" name="valor_unitario" id="valor_unitario" required>
 
         <label>Quantidade</label>
-        <input type="number" name="quantidade" required>
+        <input type="number" name="quantidade" value="1" required>
 
         <label>Funcionário Responsável</label>
         <select name="funcionario_id" required>
@@ -64,6 +75,23 @@
 
         <button type="submit">Adicionar Serviço</button>
     </form>
+
+    <script>
+        const servicoSelect = document.getElementById("servico_select");
+        const descricaoInput = document.getElementById("descricao");
+        const valorInput = document.getElementById("valor_unitario");
+
+        servicoSelect.addEventListener("change", function () {
+            const option = this.options[this.selectedIndex];
+            descricaoInput.value = option.value || "";
+            valorInput.value = option.dataset.valor || "";
+        });
+    </script>
+    {% else %}
+    <div class="info-box">
+        ♡ Esta reserva já foi finalizada, então não é mais possível adicionar novos serviços.
+    </div>
+    {% endif %}
 
     <h2>Pagamentos</h2>
 

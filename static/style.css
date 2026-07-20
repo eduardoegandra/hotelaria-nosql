@@ -393,3 +393,39 @@ a:hover {
         max-width: 100%;
     }
 }
+
+.form-busca {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+    margin-top: 10px;
+}
+
+.form-busca input {
+    flex: 1;
+    min-width: 280px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1.5px solid #efcada;
+    background: #fffefe;
+}
+
+.botao-link {
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 18px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #f8b6cc 0%, #e3c7ff 100%);
+    color: #5a3445;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 8px 18px rgba(217, 108, 151, 0.18);
+    transition: 0.25s ease;
+}
+
+.botao-link:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+}
