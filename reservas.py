@@ -61,24 +61,59 @@ def listar_reservas():
 
 @reservas_bp.route("/reservas/novo", methods=["GET", "POST"])
 def nova_reserva():
+    hospedes = list(db["hospedes"].find())
+    quartos = list(db["quartos"].find())
+    funcionarios = list(db["funcionarios"].find())
+
     if request.method == "POST":
+        hospede_cpf = request.form["hospede_cpf"]
+        quarto_numero = int(request.form["quarto_numero"])
+        funcionario_id = int(request.form["funcionario_id"])
+        data_checkin = datetime.strptime(request.form["data_checkin"], "%Y-%m-%d")
+        data_checkout = datetime.strptime(request.form["data_checkout"], "%Y-%m-%d")
+        status = request.form["status"]
+        valor_total = float(request.form["valor_total"])
+
+        if data_checkout <= data_checkin:
+            erro = "A data de check-out deve ser posterior à data de check-in."
+            return render_template(
+                "reserva_form.html",
+                hospedes=hospedes,
+                quartos=quartos,
+                funcionarios=funcionarios,
+                erro=erro
+            )
+
+        conflito = db["reservas"].find_one({
+            "quarto_numero": quarto_numero,
+            "status": {"$ne": "cancelada"},
+            "data_checkin": {"$lt": data_checkout},
+            "data_checkout": {"$gt": data_checkin}
+        })
+
+        if conflito:
+            erro = "Este quarto já está ocupado para o período solicitado."
+            return render_template(
+                "reserva_form.html",
+                hospedes=hospedes,
+                quartos=quartos,
+                funcionarios=funcionarios,
+                erro=erro
+            )
+
         db["reservas"].insert_one({
-            "hospede_cpf": request.form["hospede_cpf"],
-            "quarto_numero": int(request.form["quarto_numero"]),
-            "funcionario_id": int(request.form["funcionario_id"]),
+            "hospede_cpf": hospede_cpf,
+            "quarto_numero": quarto_numero,
+            "funcionario_id": funcionario_id,
             "data_reserva": datetime.now(),
-            "data_checkin": datetime.strptime(request.form["data_checkin"], "%Y-%m-%d"),
-            "data_checkout": datetime.strptime(request.form["data_checkout"], "%Y-%m-%d"),
-            "status": request.form["status"],
-            "valor_total": float(request.form["valor_total"]),
+            "data_checkin": data_checkin,
+            "data_checkout": data_checkout,
+            "status": status,
+            "valor_total": valor_total,
             "servicos": [],
             "pagamentos": []
         })
         return redirect(url_for("reservas.listar_reservas"))
-
-    hospedes = list(db["hospedes"].find())
-    quartos = list(db["quartos"].find())
-    funcionarios = list(db["funcionarios"].find())
 
     return render_template(
         "reserva_form.html",
