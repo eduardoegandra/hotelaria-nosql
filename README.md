@@ -14,6 +14,7 @@ O sistema permite que a equipe do hotel registre reservas, controle a disponibil
 - **Driver de Conexão**: PyMongo (driver oficial, sem uso de ORM)
 
 ## Estrutura do Projeto
+```text
 hotelaria-nosql/
 ├── app.py
 ├── db.py
@@ -25,19 +26,20 @@ hotelaria-nosql/
 ├── reservas.py
 ├── requirements.txt
 ├── static/
-│ └── style.css
+│   └── style.css
 └── templates/
-├── base.html
-├── index.html
-├── hospedes.html
-├── hospede_form.html
-├── quartos.html
-├── quarto_form.html
-├── funcionarios.html
-├── funcionario_form.html
-├── reservas.html
-├── reserva_form.html
-└── reserva_detalhe.html
+    ├── base.html
+    ├── index.html
+    ├── hospedes.html
+    ├── hospede_form.html
+    ├── quartos.html
+    ├── quarto_form.html
+    ├── funcionarios.html
+    ├── funcionario_form.html
+    ├── reservas.html
+    ├── reserva_form.html
+    └── reserva_detalhe.html
+```
 
 
 ## Modelagem de Dados
@@ -99,6 +101,8 @@ http://127.0.0.1:5000
 
 ## Autor
 
-[Seu nome completo] - Matrícula: [sua matrícula]  
+Eduardo Gandra - Luis Gustavo - Tiago Henrique - Livia Gandra
+
 Sistemas de Informação - UFOP  
+
 Disciplina: CSI603 - Banco de Dados II
