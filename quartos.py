@@ -88,8 +88,7 @@ def novo_quarto():
             "numero": int(request.form["numero"]),
             "tipo": request.form["tipo"],
             "capacidade": int(request.form["capacidade"]),
-            "valor_diaria": float(request.form["valor_diaria"]),
-            "status": request.form["status"]
+            "valor_diaria": float(request.form["valor_diaria"])
         })
         return redirect(url_for("quartos.listar_quartos"))
 
@@ -114,8 +113,7 @@ def editar_quarto(id):
                     "numero": int(request.form["numero"]),
                     "tipo": request.form["tipo"],
                     "capacidade": int(request.form["capacidade"]),
-                    "valor_diaria": float(request.form["valor_diaria"]),
-                    "status": request.form["status"]
+                    "valor_diaria": float(request.form["valor_diaria"])
                 }
             }
         )
